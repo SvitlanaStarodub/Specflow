@@ -19,7 +19,7 @@ namespace Common.Core
                 if (_driver == null)
                 {
                     _driver = new ChromeDriver();
-
+                    _driver.Manage().Timeouts().ImplicitWait=TimeSpan.FromSeconds(5);
                 }
                 return _driver;
             }

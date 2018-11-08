@@ -8,8 +8,7 @@ Scenario: Compare characteristics
 	Given As an user, I open Mobile Phone tab on Rozetka
 	And I select a phone as 'Apple' 
 	When I open characteristics for 'iPhone 7, iPhone 7 Plus' phone versions
-	And I compare characteristics for 'iPhone 7' and 'iPhone 7 Plus' phone versions
-	Then 
-	And On the page as a result I see products related to selected phone version '<PhoneVersion>'
+	Then I compare characteristics for 'iPhone 7' and 'iPhone 7 Plus' phone versions
+	And I save common phone details to a file
 
 	

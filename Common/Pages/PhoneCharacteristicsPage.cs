@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Helper;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
 
 namespace Common.Pages
 {
@@ -16,9 +18,14 @@ namespace Common.Pages
             _driver = driver;
         }
 
-        public IWebElement CharacteristicTab =>
-            _driver.FindElement(By.XPath(".//a[contains(text(),'Характеристики')]"));
+        [FindsBy(How = How.XPath, Using = ".//a[contains(text(),'Характеристики')]")]
+        public IWebElement CharacteristicTab;
+        //=> ElementExtentions.WaitForExists(()=>
+        //_driver.FindElement(By.XPath(".//a[contains(text(),'Характеристики')]")));
 
-        public List<IWebElement> PhoneDetails => _driver.FindElements(By.ClassName("chars-value-inner")).ToList();
+        [FindsBy(How = How.ClassName, Using = "chars-value-inner")]
+        public IList<IWebElement> PhoneDetails;
+
+        //=> ElementExtentions.WaitCollectionIsNotEmpty(_driver.FindElements,By.ClassName("chars-value-inner"));
     }
 }

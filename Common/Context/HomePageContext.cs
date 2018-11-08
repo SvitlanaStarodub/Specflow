@@ -7,6 +7,8 @@ using Common.Helper;
 using Common.Pages;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.PageObjects;
+
 
 namespace Common.Context
 {
@@ -17,18 +19,19 @@ namespace Common.Context
         
         public HomePageContext(IWebDriver driver)
         {
-            _homePage = new HomePage(driver);
+            _homePage = PageFactory.InitElements<HomePage>(driver);
             _driver = driver;
             HelperWaiter.InitializeWaiter(driver, TimeSpan.FromSeconds(7));
         }
 
         public void NavigateToMobilePage()
         {
-            Actions hoverOver = new Actions(_driver);
-            hoverOver.MoveToElement(_homePage.Catalog).Perform();
-
-            _homePage.MobileNavigation.WaitForDisplayed();
-            _homePage.MobileNavigation.Click();
+            var hoverOver = new Actions(_driver);
+            
+            _homePage.Catalog.WaitForEnabled();
+            ElementExtensions.RetryHoverOver(() => hoverOver.MoveToElement(_homePage.Catalog).Perform(), () => _homePage.MobileNavigation.Click());
+            //hoverOver.MoveToElement(_homePage.Catalog).Perform();
+            //_homePage.MobileNavigation.Click();
 
         }
 

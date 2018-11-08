@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Common.Helper;
 using Common.Pages;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
 
 namespace Common.Context
 {
@@ -15,13 +18,19 @@ namespace Common.Context
 
         public FilterResultPageContext(IWebDriver driver)
         {
-            _filterResultPage = new FilterResultPage(driver);
+            _filterResultPage = PageFactory.InitElements<FilterResultPage>(driver);
         }
 
-        public void NavigateToAppleVersion(int index = 0)
+        public void NavigateToAppleVersion(string version)
         {
-             _filterResultPage.listOfPhones[index].Click();
+         
+          _filterResultPage.listOfPhones.First(el => el.Text == version).Click();
+        }
 
+        public void OpenPhoneDetails()
+        {
+            _filterResultPage.PhoneDetails.WaitForExists();
+            _filterResultPage.PhoneDetails.Click();
         }
     }
 }

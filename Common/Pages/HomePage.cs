@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Common.Helper;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
 
 namespace Common.Pages
 {
@@ -14,12 +16,20 @@ namespace Common.Pages
         public HomePage(IWebDriver driver)
         {
             _driver = driver;
+
+            
         }
 
-        public IWebElement Catalog => _driver.FindElement(By.CssSelector("a[href*='telefony-tv-i-ehlektronika']"));
-        //public IWebElement SubCatalog => _driver.FindElement(By.XPath(".//a[contains(text(),'Смартфоны')]"));
 
-        public IWebElement MobileNavigation => _driver.FindElement(By.XPath(".//a[contains(text(),'Мобильные телефоны')]"));
+
+        [FindsBy(How = How.CssSelector, Using = "a[href*='telefony-tv-i-ehlektronika']")]
+        public IWebElement Catalog;
+       
+        [FindsBy(How =How.XPath, Using = ".//a[contains(text(),'Мобильные телефоны')]")]
+        public IWebElement MobileNavigation;
+        // () => _driver.FindElement(By.XPath(".//a[contains(text(),'Мобильные телефоны')]"))
+        
+        //public IWebElement MobileNavigation => ElementExtentions.WaitForExists(_driver.FindElement, By.XPath(".//a[contains(text(),'Мобильные телефоны')]"));
 
 
 

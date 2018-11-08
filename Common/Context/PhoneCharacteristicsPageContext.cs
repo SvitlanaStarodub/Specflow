@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Common.Helper;
 using Common.Pages;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
 
 namespace Common.Context
 {
@@ -14,7 +17,7 @@ namespace Common.Context
 
         public PhoneCharacteristicsPageContext(IWebDriver driver)
         {
-            _phoneCharacteristicsPage = new PhoneCharacteristicsPage(driver);
+            _phoneCharacteristicsPage = PageFactory.InitElements<PhoneCharacteristicsPage>(driver);
         }
 
         public void NavigateToCharacteristicsPage()
@@ -24,7 +27,15 @@ namespace Common.Context
 
         public List<string> PhoneDetails()
         {
-            return _phoneCharacteristicsPage.PhoneDetails.Select(el => el.Text).ToList();
+            var function = new Func<bool>(() => _phoneCharacteristicsPage.PhoneDetails.Any());
+
+            function.WaitFor();
+            return _phoneCharacteristicsPage.PhoneDetails.Select(el =>
+            {
+                 el.WaitForExists();
+                 return el.Text;
+
+            }).ToList();
         }
     }
 }

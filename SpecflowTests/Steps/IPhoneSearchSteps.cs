@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
+using System.Linq;
+using System.Threading;
 using Common.Context;
 using Common.Core;
+using Common.Helper;
 using Common.Pages;
 using FluentAssertions;
 using NUnit.Framework;
@@ -21,10 +25,8 @@ namespace SpecflowTests.Steps
         private readonly IWebDriver _driver;
         private readonly FilterResultPageContext _filterResultPageContext;
         private readonly PhoneCharacteristicsPageContext _phoneCharacteristicsPageContext;
+
        
-        
-
-
         public IPhoneSearchSteps()
         {
             _driver = SeleniumDriver.Driver;
@@ -36,90 +38,67 @@ namespace SpecflowTests.Steps
 
         }
 
-       
-        
-
-        [Given(@"As an user, I open Mobile Phone tab on Rozetka")]
+       [Given(@"As an user, I open Mobile Phone tab on Rozetka")]
         public void GivenAsAnUserIOpenMobilePhoneTabOnRozetka()
         {
             var url = ConfigurationSettings.AppSettings["homeUrl"];
             _driver.Navigate().GoToUrl(url);
-            _homePageContext.NavigateToMobilePage();
+            
+           _homePageContext.NavigateToMobilePage();
             
         }
 
         [Given(@"I select a phone as '(.*)'")]
         public void GivenISelectAPhoneAs(string phoneProducer)
         {
-            _mobilePageContext.SelectAppleVersion(phoneProducer);
+            _mobilePageContext.SelectProducer(phoneProducer);
         }
 
         [When(@"I open characteristics for '(.*)' phone versions")]
-        public void WhenIOpenCharacteristicsForPhoneVersion(List<string> phoneVersions)
+       public void WhenIOpenCharacteristicsForPhoneVersion(List<string> phoneVersions)
         {
+            Thread.Sleep(1000);
+
+            var url = _driver.Url;
+
             foreach (var version in phoneVersions)
             {
-                _filterResultPageContext.NavigateToAppleVersion();
+               
+                _filterResultPageContext.NavigateToAppleVersion(version);
+                _filterResultPageContext.OpenPhoneDetails();
                 _phoneCharacteristicsPageContext.NavigateToCharacteristicsPage();
                 var phone1Characteristics = _phoneCharacteristicsPageContext.PhoneDetails();
                 ScenarioContext.Current.Add(version, phone1Characteristics);
-
+                _driver.Navigate().GoToUrl(url);
+               
             }
-         }
+        }
 
-        [When(@"I compare characteristics for '(.*)' and '(.*)' phone versions")]
+        [Then(@"I compare characteristics for '(.*)' and '(.*)' phone versions")]
         public void WhenICompareCharacteristicsForAndPhoneVersions(string phoneVersion1, string phoneVersion2)
         {
             var detailsPhoneSeven = ScenarioContext.Current.Get<List<string>>(phoneVersion1);
             var detailsPhoneSevenPlus = ScenarioContext.Current.Get<List<string>>(phoneVersion2);
-
-
-        }
-
-
-        
-
-        [When(@"On the page as a result I see products related to selected phone version '(.*)'")]
-        public void WhenOnThePageAsAResultISeeProductsRelatedToSelectedPhoneVersion(string p0)
-        {
-            ScenarioContext.Current.Pending();
-        }
-
-
-
-        //[When(@"I select a phone as '(.*)' and phone version '(.*)'")]
-        //public void WhenISelectAPhoneAsAndPhoneVersion(string phoneProducer, string phoneVersion)
-        //{
-        //    _mobilePageContext.SelectProducer(phoneProducer);
-        //    _mobilePageContext.SelectAppleVersion(phoneVersion);
-
-        //}
-
-        //[Then(@"I see the page headline '(.*)' is displayed")]
-        //public void ThenISeeThePageHeadlineIsDisplayed(string expectedHeadline)
-        //{
-        //    var actualHeadline = _filterResultPageContext.GetHeadelineAfterFiltering();
-        //    Assert.AreEqual(expectedHeadline, actualHeadline);
-        //}
-
-        //[Then(@"On the page as a result I see products related to selected phone version '(.*)'")]
-        //public void ThenOnThePageAsAResultISeeProductsRelatedToSelectedPhoneVersion(string expectedPhoneVersion)
-        //{
-        //    var actualResult = _filterResultPageContext.GetHeadelineAfterFiltering();
-
-        //    foreach (var listElements in actualResult)
-        //    {
-        //        actualResult.Should().StartWith(expectedPhoneVersion);
-        //    }
            
+            var commonPhoneDetails = detailsPhoneSevenPlus.Intersect(detailsPhoneSeven);
+            ScenarioContext.Current.Add(ScenarioContextKeys.commonDetailsKey, commonPhoneDetails);
+            
+        }
 
-        //}
+        [Then(@"I save common phone details to a file")]
+        public void ThenISaveCommonPhoneDetailsToAFile()
+        {
+
+            var enumerable = ScenarioContext.Current.Get<IEnumerable<string>>(ScenarioContextKeys.commonDetailsKey);
+            string path = @"D:\";
+            string fileName = "Common.txt";
+
+            File.WriteAllLines(Path.Combine(path, fileName), enumerable);
+
+        }
 
 
-
-
-
-        [OneTimeTearDown]
+        [AfterScenario]
         public void TearDown()  
         {
             _driver.Quit();

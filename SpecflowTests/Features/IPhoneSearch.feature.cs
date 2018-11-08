@@ -85,12 +85,9 @@ this.ScenarioInitialize(scenarioInfo);
 #line 10
  testRunner.When("I open characteristics for \'iPhone 7, iPhone 7 Plus\' phone versions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11
- testRunner.And("I compare characteristics for \'iPhone 7\' and \'iPhone 7 Plus\' phone versions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("I compare characteristics for \'iPhone 7\' and \'iPhone 7 Plus\' phone versions", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
- testRunner.Then("", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 13
- testRunner.And("On the page as a result I see products related to selected phone version \'<PhoneV" +
-                    "ersion>\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("I save common phone details to a file", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
