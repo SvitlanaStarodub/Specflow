@@ -21,13 +21,10 @@ namespace Common.Pages
         [FindsBy(How = How.CssSelector, Using = "div[name='filter_parameters'] ul#sort_series li")]
         public IList<IWebElement> AppleVersionFilter;
 
-        //[FindsBy(How = How.CssSelector, Using = "li[id^='filter_producer'] i")]
-        //public IList<IWebElement> ListPhoneProducers;
-
         [FindsBy(How = How.CssSelector, Using = "li[id^='filter_producer'] a[name='producer_69']")]
         public IWebElement ListPhoneProducers;
 
-        //=> ElementExtentions.WaitForExists(()=> _driver.FindElement(By.XPath($".//li[.//i[contains(text(),'{producer}')]]")));
+       
 
     }
 }

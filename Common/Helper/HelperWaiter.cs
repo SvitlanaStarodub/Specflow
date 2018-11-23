@@ -19,11 +19,6 @@ namespace Common.Helper
             _waiter = new WebDriverWait(driver, timeSpan);
         }
 
-        public static void WaitForDisplayed(this IWebElement element)
-        {
-            _waiter.Until(driver => element.Displayed);
-        }
-
         public static void WaitForEnabled(this IWebElement element)
         {
             Thread.Sleep(2000);

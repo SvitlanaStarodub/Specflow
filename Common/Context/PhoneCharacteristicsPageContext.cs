@@ -33,6 +33,7 @@ namespace Common.Context
             return _phoneCharacteristicsPage.PhoneDetails.Select(el =>
             {
                  el.WaitForExists();
+                Thread.Sleep(1000);
                  return el.Text;
 
             }).ToList();

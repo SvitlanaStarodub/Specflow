@@ -27,9 +27,8 @@ namespace Common.Pages
        
         [FindsBy(How =How.XPath, Using = ".//a[contains(text(),'Мобильные телефоны')]")]
         public IWebElement MobileNavigation;
-        // () => _driver.FindElement(By.XPath(".//a[contains(text(),'Мобильные телефоны')]"))
-        
-        //public IWebElement MobileNavigation => ElementExtentions.WaitForExists(_driver.FindElement, By.XPath(".//a[contains(text(),'Мобильные телефоны')]"));
+
+       //public IWebElement MobileNavigation => ElementExtentions.WaitForExists(_driver.FindElement, By.XPath(".//a[contains(text(),'Мобильные телефоны')]"));
 
 
 

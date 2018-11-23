@@ -30,6 +30,7 @@ namespace Common.Context
             
             _homePage.Catalog.WaitForEnabled();
             ElementExtensions.RetryHoverOver(() => hoverOver.MoveToElement(_homePage.Catalog).Perform(), () => _homePage.MobileNavigation.Click());
+            
             //hoverOver.MoveToElement(_homePage.Catalog).Perform();
             //_homePage.MobileNavigation.Click();
 

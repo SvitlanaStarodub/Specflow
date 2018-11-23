@@ -20,9 +20,8 @@ namespace Common.Pages
 
         [FindsBy(How = How.XPath, Using = ".//li[starts-with(@class,'filter')]//span/i")]
         public IList<IWebElement> listOfPhones;
-        //=> ElementExtentions.WaitCollectionIsNotEmpty(_driver.FindElements, By.XPath(".//li[starts-with(@class,'filter')]//span/i"));
 
-        [FindsBy(How = How.XPath, Using = ".//div[contains(@class,'g-i-tile-i-title clearfix')]/a")]
+       [FindsBy(How = How.XPath, Using = ".//div[contains(@class,'g-i-tile-i-title clearfix')]/a")]
         public IWebElement PhoneDetails;
 
         //=> ElementExtentions.WaitForExists(()=>_driver.FindElement(By.XPath(".//div[contains(@class,'g-i-tile-i-title clearfix')]/a")));

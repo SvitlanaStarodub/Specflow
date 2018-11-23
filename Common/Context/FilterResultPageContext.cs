@@ -23,13 +23,14 @@ namespace Common.Context
 
         public void NavigateToAppleVersion(string version)
         {
-         
+         Thread.Sleep(2000);
           _filterResultPage.listOfPhones.First(el => el.Text == version).Click();
         }
 
         public void OpenPhoneDetails()
         {
             _filterResultPage.PhoneDetails.WaitForExists();
+            Thread.Sleep(2000);
             _filterResultPage.PhoneDetails.Click();
         }
     }

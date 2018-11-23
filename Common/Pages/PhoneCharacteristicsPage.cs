@@ -20,12 +20,10 @@ namespace Common.Pages
 
         [FindsBy(How = How.XPath, Using = ".//a[contains(text(),'Характеристики')]")]
         public IWebElement CharacteristicTab;
-        //=> ElementExtentions.WaitForExists(()=>
-        //_driver.FindElement(By.XPath(".//a[contains(text(),'Характеристики')]")));
-
+        
         [FindsBy(How = How.ClassName, Using = "chars-value-inner")]
         public IList<IWebElement> PhoneDetails;
 
-        //=> ElementExtentions.WaitCollectionIsNotEmpty(_driver.FindElements,By.ClassName("chars-value-inner"));
+        
     }
 }
